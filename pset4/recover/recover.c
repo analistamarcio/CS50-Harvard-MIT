@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
             int fcount = 0; // number of JPG found
             char *fname = malloc(8); // outfile filename
             BYTE buffer[512];
-            FILE *img;;;
+            FILE *img;
             while (fread(buffer, sizeof(BYTE) * 512, 1, file) == 1)
             {
                 if (buffer[0] == 0xff && buffer[1] == 0xd8 && buffer[2] == 0xff && (buffer[3] & 0xf0) == 0xe0)
@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
                     }
                     else
                     {
+                        // one more JPEG found: close previous file and open/start a new one
                         fclose(img);
                         sprintf(fname, "%03i.jpg", fcount);
                         img = fopen(fname, "w");
